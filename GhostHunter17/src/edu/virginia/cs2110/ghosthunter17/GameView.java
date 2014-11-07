@@ -7,7 +7,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.MotionEvent.PointerCoords;
 
 public class GameView extends View {
 
@@ -103,6 +105,27 @@ public class GameView extends View {
 			g.update(timePassed);
 		}
 
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			int index = event.getActionIndex();
+			PointerCoords coord = new PointerCoords();
+			event.getPointerCoords(index, coord);
+			gameObjects.add(new Box(new PointF(coord.x, coord.y), new PointF(
+					500 * (float) Math.random() - 250, 500 * (float) Math
+							.random() - 250)));
+			performClick();
+			return true;
+		} else
+			return super.onTouchEvent(event);
+	}
+
+	@Override
+	public boolean performClick() {
+
+		return super.performClick();
 	}
 
 }

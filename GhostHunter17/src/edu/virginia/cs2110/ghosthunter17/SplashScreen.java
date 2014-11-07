@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 public class SplashScreen extends Activity {
+	
+	private static final long SPLASH_TIME = 10000;
 
 	private Thread mSplashThread;
 
@@ -24,7 +26,7 @@ public class SplashScreen extends Activity {
 				try {
 					synchronized (this) {
 						// Wait given period of time or exit on touch
-						wait(10000);
+						wait(SPLASH_TIME);
 					}
 				} catch (InterruptedException ex) {
 				}
