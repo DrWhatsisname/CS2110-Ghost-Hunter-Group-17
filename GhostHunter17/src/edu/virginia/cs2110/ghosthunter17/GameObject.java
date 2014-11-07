@@ -7,10 +7,10 @@ public abstract class GameObject {
 
 	protected PointF pos;
 
-	public GameObject(){
+	public GameObject() {
 		this.pos = new PointF();
 	}
-	
+
 	public GameObject(float x, float y) {
 		this.pos = new PointF(x, y);
 	}
