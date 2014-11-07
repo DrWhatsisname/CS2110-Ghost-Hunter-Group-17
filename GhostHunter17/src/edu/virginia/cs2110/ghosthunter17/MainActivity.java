@@ -7,10 +7,25 @@ import android.view.MenuItem;
 
 public class MainActivity extends Activity {
 
+	private GameView game;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		game = (GameView)findViewById(R.id.gameView);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		game.onPause();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		game.onResume();
 	}
 
 	@Override
