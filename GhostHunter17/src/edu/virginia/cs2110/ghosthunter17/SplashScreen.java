@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Window;
+import android.view.WindowManager;
 
 public class SplashScreen extends Activity {
 	
@@ -15,7 +16,12 @@ public class SplashScreen extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//Removes Title Bar
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
+		//Removes Notification Bar
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
 		setContentView(R.layout.activity_splash_screen);
 		final SplashScreen sPlashScreen = this;   
         // The thread to wait for splash screen events
