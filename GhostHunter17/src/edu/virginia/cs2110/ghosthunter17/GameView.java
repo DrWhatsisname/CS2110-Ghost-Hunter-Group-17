@@ -1,92 +1,108 @@
 package edu.virginia.cs2110.ghosthunter17;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.view.View;
 
 public class GameView extends View {
 
 	private long lastTime;
-	private float x;
-	private float y;
-	private float vx;
-	private float vy;
-	
-	private static final float SIZE = 200;
+	private List<GameObject> gameObjects;
 
 	public GameView(Context context) {
 		super(context);
-		lastTime = System.currentTimeMillis();
-		x = 10;
-		y = 10;
-		vx = 100;
-		vy = 100;
+		init();
 	}
 
 	public GameView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		lastTime = System.currentTimeMillis();
-		x = 10;
-		y = 10;
-		vx = 100;
-		vy = 100;
+		init();
 	}
 
 	public GameView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		lastTime = System.currentTimeMillis();
-		x = 10;
-		y = 10;
-		vx = 100;
-		vy = 100;
+		init();
+	}
 
+	private void init() {
+		//Initialize things
+		lastTime = System.currentTimeMillis();
+		
+		//Set up GameObject list
+		gameObjects = new ArrayList<GameObject>();
+		gameObjects.add(new Box(new PointF(10, 10), new PointF(150, 150)));
+	}
+
+	public void onPause() {
+
+	}
+
+	public void onResume() {
+		lastTime = System.currentTimeMillis();
+	}
+	
+//	@Override
+//	protected Parcelable onSaveInstanceState() {
+//		Parcel p = Parcel.obtain();
+//		p.writeList(gameObjects);
+//		Parcelable parcel = p.readParcelable(null);
+//		p.recycle();
+//		return parcel;
+//	
+//	}
+//	
+//	@Override
+//	protected void onRestoreInstanceState(Parcelable state) {
+//		Parcel p = Parcel.obtain();
+//		state.writeToParcel(p, 0);
+//		p.readList(gameObjects, null);
+//		p.recycle();
+//	}
+	
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+		Box.boundX = w;
+		Box.boundY = h;
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		
+		//Update the state of the game
 		update();
-		
+
+		//Draw everything to the screen
 		render(canvas);
-		
+
+		//Redraw the view (call onDraw again)
 		this.invalidate();
 	}
 
 	private void render(Canvas c) {
-		Paint p = new Paint();
-		p.setColor(0xffff0000);
-		c.drawRect(x,y,x+SIZE,y+SIZE, p);
+		//Draw each GameObject
+		for (GameObject g : gameObjects) {
+			g.render(c);
+		}
 	}
 
 	private void update() {
+		//Update time
 		long thisTime = System.currentTimeMillis();
-		float timePassed = (thisTime - lastTime)/1000.0f;
+		float timePassed = (thisTime - lastTime) / 1000.0f;
 		lastTime = thisTime;
-		
-		this.x += vx * timePassed;
-		this.y += vy * timePassed;
-		
-		if (x + SIZE > this.getWidth()){
-			x = this.getWidth()-SIZE;
-			vx = -vx;
+
+		//Update each GameObject
+		for (GameObject g : gameObjects) {
+			g.update(timePassed);
 		}
-		else if (x < 0){
-			x = 0;
-			vx = -vx;
-		}
-		if (y +SIZE > this.getHeight()){
-			y = this.getHeight()-SIZE;
-			vy = -vy;
-		}
-		else if (y < 0){
-			y = 0;
-			vy = -vy;
-		}
-		
+
 	}
 
 }
