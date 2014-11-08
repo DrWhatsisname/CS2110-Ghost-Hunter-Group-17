@@ -1,20 +1,15 @@
 package edu.virginia.cs2110.ghosthunter17;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.MotionEvent.PointerCoords;
 
 public class GameView extends View {
 
 	private long lastTime;
-	private List<GameObject> gameObjects;
+	private World w;
 
 	public GameView(Context context) {
 		super(context);
@@ -35,9 +30,8 @@ public class GameView extends View {
 		// Initialize things
 		lastTime = System.currentTimeMillis();
 
-		// Set up GameObject list
-		gameObjects = new ArrayList<GameObject>();
-		gameObjects.add(new Box(new PointF(10, 10), new PointF(150, 150)));
+		// Set up GameObject world
+		w = new World();
 	}
 
 	public void onPause() {
@@ -88,10 +82,7 @@ public class GameView extends View {
 	}
 
 	private void render(Canvas c) {
-		// Draw each GameObject
-		for (GameObject g : gameObjects) {
-			g.render(c);
-		}
+		w.render(c);
 	}
 
 	private void update() {
@@ -100,26 +91,16 @@ public class GameView extends View {
 		float timePassed = (thisTime - lastTime) / 1000.0f;
 		lastTime = thisTime;
 
-		// Update each GameObject
-		for (GameObject g : gameObjects) {
-			g.update(timePassed);
-		}
-
+		w.update(timePassed);
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			int index = event.getActionIndex();
-			PointerCoords coord = new PointerCoords();
-			event.getPointerCoords(index, coord);
-			gameObjects.add(new Box(new PointF(coord.x, coord.y), new PointF(
-					500 * (float) Math.random() - 250, 500 * (float) Math
-							.random() - 250)));
+		if (w.onTouchEvent(event)) {
 			performClick();
 			return true;
-		} else
-			return super.onTouchEvent(event);
+		}
+		return super.onTouchEvent(event);
 	}
 
 	@Override

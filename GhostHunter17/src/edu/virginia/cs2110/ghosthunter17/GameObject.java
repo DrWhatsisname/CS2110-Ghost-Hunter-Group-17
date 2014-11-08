@@ -6,16 +6,20 @@ import android.graphics.PointF;
 public abstract class GameObject {
 
 	protected PointF pos;
+	protected World world;
 
-	public GameObject() {
+	public GameObject(World world) {
 		this.pos = new PointF();
+		this.world = world;
 	}
 
-	public GameObject(float x, float y) {
+	public GameObject(World world, float x, float y) {
 		this.pos = new PointF(x, y);
+		this.world = world;
 	}
 
-	public GameObject(PointF pos) {
+	public GameObject(World world, PointF pos) {
+		this.world = world;
 		this.pos = pos;
 	}
 
