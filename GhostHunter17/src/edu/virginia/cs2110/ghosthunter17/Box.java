@@ -11,8 +11,8 @@ public class Box extends GameObject {
 	private PointF vel, size;
 	private Paint p;
 
-	public Box(PointF pos, PointF vel) {
-		super(pos);
+	public Box(World w, PointF pos, PointF vel) {
+		super(w, pos);
 		this.vel = vel;
 		this.size = new PointF(100, 100);
 
