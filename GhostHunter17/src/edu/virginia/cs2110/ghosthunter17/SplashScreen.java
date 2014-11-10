@@ -2,6 +2,7 @@ package edu.virginia.cs2110.ghosthunter17;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,12 +13,15 @@ public class SplashScreen extends Activity {
 	private static final long SPLASH_TIME = 10000;
 
 	private Thread mSplashThread;
-
+	
+	MediaPlayer ourSong;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_splash_screen);
+		ourSong = MediaPlayer.create(this, R.raw.gameboy);
+		ourSong.start();
 		final SplashScreen sPlashScreen = this;
 		// The thread to wait for splash screen events
 		mSplashThread = new Thread() {
@@ -30,7 +34,7 @@ public class SplashScreen extends Activity {
 					}
 				} catch (InterruptedException ex) {
 				}
-
+				ourSong.release();
 				finish();
 
 				// Run next activity
