@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 
 public class Box extends GameObject {
-
+	//QUick Test making sure git is working
 	public static int boundX, boundY;
 
 	private PointF vel, size;
