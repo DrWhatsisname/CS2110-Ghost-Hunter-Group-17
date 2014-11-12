@@ -1,6 +1,7 @@
 package edu.virginia.cs2110.ghosthunter17;
 
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,10 +9,12 @@ import android.view.MenuItem;
 public class MainActivity extends Activity {
 
 	private GameView game;
+	private MediaPlayer bgm;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		bgm = MediaPlayer.create(this, R.raw.gameboy); //Download new song and replace it with gameboybgm.setLooping(true);bgm.start();
 		setContentView(R.layout.activity_main);
 		game = (GameView) findViewById(R.id.gameView);
 	}
