@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -12,9 +14,16 @@ public class SplashScreen extends Activity {
 	
 	private static final long SPLASH_TIME = 10000;
 
-	private Thread mSplashThread;
+//	private Thread mSplashThread;
+	private Handler handler;
+	private Runnable launchMain;
 	
 	MediaPlayer ourSong;
+	
+	public SplashScreen() {
+		super();
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -22,30 +31,28 @@ public class SplashScreen extends Activity {
 		setContentView(R.layout.activity_splash_screen);
 		ourSong = MediaPlayer.create(this, R.raw.gameboy);
 		ourSong.start();
-		final SplashScreen sPlashScreen = this;
-		// The thread to wait for splash screen events
-		mSplashThread = new Thread() {
+		
+		handler = new Handler();
+		launchMain = new Runnable() {
+			
 			@Override
 			public void run() {
-				try {
-					synchronized (this) {
-						// Wait given period of time or exit on touch
-						wait(SPLASH_TIME);
-					}
-				} catch (InterruptedException ex) {
-				}
+				Intent intent = new Intent();
+				intent.setClass(SplashScreen.this, MainActivity.class);
+				startActivity(intent);
 				ourSong.release();
 				finish();
-
-				// Run next activity
-				Intent intent = new Intent();
-				intent.setClass(sPlashScreen, MainActivity.class);
-				startActivity(intent);
-				// stop();
 			}
 		};
-
-		mSplashThread.start();
+		
+		handler.postDelayed(launchMain, SPLASH_TIME);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		handler.removeCallbacks(launchMain);
+		launchMain.run();
 	}
 
 	@Override
@@ -70,10 +77,11 @@ public class SplashScreen extends Activity {
 	@Override
 	public boolean onTouchEvent(MotionEvent evt) {
 		if (evt.getAction() == MotionEvent.ACTION_DOWN) {
-			synchronized (mSplashThread) {
-				mSplashThread.notifyAll();
-			}
+			handler.removeCallbacks(launchMain);
+			launchMain.run();
+			return true;
 		}
-		return true;
+		else
+			return super.onTouchEvent(evt);
 	}
 }
