@@ -26,12 +26,24 @@ public class MainActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		game.onPause();
+		bgm.pause();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		game.onResume();
+		bgm.start();
+	}
+	
+	@Override
+	protected void onStop() {
+		bgm.release();
+	}
+	
+	@Override
+	protected void onRestart() {
+		bgm = MediaPlayer.create(this, R.raw.castletheme);
 	}
 
 	@Override
