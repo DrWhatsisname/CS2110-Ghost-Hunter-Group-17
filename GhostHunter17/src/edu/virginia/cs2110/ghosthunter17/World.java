@@ -15,7 +15,7 @@ public class World {
 	private ArrayList<GameObject> removeQueue;
 
 	private Player p;
-
+	
 	public World() {
 		this(new ArrayList<GameObject>());
 	}
@@ -28,6 +28,7 @@ public class World {
 		this.removeQueue = new ArrayList<GameObject>();
 		p = new Player(this, new PointF(0, 0));
 		this.gameObjects.add(p);
+		this.gameObjects.add(new Circle(this, new PointF(0,0), new PointF(100,100), 50));
 	}
 
 	public void update(float timePassed) {
