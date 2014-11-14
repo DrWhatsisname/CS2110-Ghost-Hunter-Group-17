@@ -32,7 +32,7 @@ public class Player extends GameObject {
 
 	@Override
 	public void render(Canvas c) {
-		c.drawRect(pos.x, pos.y, pos.x + 100, pos.y + 100, p);
+		c.drawRect(pos.x-50, pos.y-50, pos.x + 50, pos.y + 50, p);
 
 	}
 
