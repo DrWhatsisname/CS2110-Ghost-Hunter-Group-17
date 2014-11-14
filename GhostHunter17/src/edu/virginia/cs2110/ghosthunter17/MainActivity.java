@@ -37,14 +37,22 @@ public class MainActivity extends Activity {
 	}
 	
 	@Override
-	protected void onStop() {
+	protected void onDestroy() {
+		super.onDestroy();
 		bgm.release();
 	}
 	
-	@Override
-	protected void onRestart() {
-		bgm = MediaPlayer.create(this, R.raw.castletheme);
-	}
+//	@Override
+//	protected void onStop() {
+//		super.onStop();
+//		bgm.release();
+//	}
+//	
+//	@Override
+//	protected void onRestart() {
+//		super.onRestart();
+//		bgm = MediaPlayer.create(this, R.raw.castletheme);
+//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
