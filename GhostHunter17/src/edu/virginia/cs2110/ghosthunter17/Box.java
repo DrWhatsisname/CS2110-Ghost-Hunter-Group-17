@@ -19,6 +19,7 @@ public class Box extends GameObject {
 		// Initialize a paint object to red
 		this.p = new Paint();
 		p.setColor(0xffff0000);
+		
 	}
 
 	@Override

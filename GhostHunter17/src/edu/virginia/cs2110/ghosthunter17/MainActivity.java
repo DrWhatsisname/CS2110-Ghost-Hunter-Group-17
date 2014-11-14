@@ -14,7 +14,10 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		bgm = MediaPlayer.create(this, R.raw.gameboy); //Download new song and replace it with gameboybgm.setLooping(true);bgm.start();
+		bgm = MediaPlayer.create(this, R.raw.castletheme);
+		bgm.setLooping(true);
+		bgm.start();
+		//Download new song and replace it with gameboybgm.setLooping(true);bgm.start();
 		setContentView(R.layout.activity_main);
 		game = (GameView) findViewById(R.id.gameView);
 	}
@@ -23,12 +26,14 @@ public class MainActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		game.onPause();
+		bgm.pause();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		game.onResume();
+		bgm.start();
 	}
 
 	@Override
