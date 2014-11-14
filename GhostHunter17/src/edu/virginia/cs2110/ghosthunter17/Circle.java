@@ -15,7 +15,7 @@ public class Circle extends GameObject {
 	public Circle(World w, PointF pos, PointF vel, float radius) {
 		super(w, pos);
 		this.vel = vel;
-		this.size = new PointF(100, 100);
+		this.size = new PointF(2*radius, 2*radius);
 		this.radius = radius;
 
 		// Initialize a paint object to red
@@ -50,7 +50,7 @@ public class Circle extends GameObject {
 	@Override
 	public void render(Canvas c) {
 		// Draw a rectangle at the box's position
-		c.drawCircle(pos.x, pos.y, radius, p);
+		c.drawCircle(pos.x+radius, pos.y+radius, radius, p);
 	}
 
 }
